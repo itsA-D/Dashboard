@@ -1,0 +1,5 @@
+# Core
+-r base.txt
+
+# Production
+gunicorn>=21.2,<21.3

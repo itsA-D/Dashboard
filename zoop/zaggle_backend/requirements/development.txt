@@ -1,5 +1,0 @@
-# Core
--r base.txt
-
-# Development
-django-debug-toolbar>=4.3,<4.4

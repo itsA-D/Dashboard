@@ -1,10 +1,10 @@
-# Zoop (Zaggle Dashboard)
+# Zoop (Zoop Dashboard)
 
 Corporate spend management platform for Indian companies, with multi-tenant Django APIs and a role-based Next.js dashboard.
 
 This repository contains:
-- zaggle_backend: Django + DRF + Celery backend
-- zaggle-frontend: Next.js 14 frontend
+- backend: Django + DRF + Celery backend
+- frontend: Next.js 14 frontend
 - Architecture and product docs in the root md files
 
 ## Table of Contents
@@ -63,7 +63,7 @@ The product combines:
 ## 3) Architecture
 
 ### Backend architecture
-- Django app-per-domain structure under zaggle_backend/apps
+- Django app-per-domain structure under backend/apps
 - DRF viewsets and APIView endpoints under api/v1
 - Celery app configured in celery_app.py with queue routing in settings
 - Development defaults use SQLite and local file storage
@@ -106,9 +106,10 @@ The product combines:
 
 ## 5) Repository Layout
 
-- zaggle_backend
+- backend
   - config/settings: base, development, production settings
   - apps/core: middleware, permissions, exceptions, pagination, tenant view base
+  - apps/companies: company model and settings
   - apps/users: auth and user management
   - apps/expenses: expense models, views, policy service, OCR tasks
   - apps/cards: card APIs, transaction logic, webhook endpoint and task
@@ -117,12 +118,16 @@ The product combines:
   - apps/reports: analytics and report generation
   - apps/notifications: notification APIs and tasks
   - apps/audit: immutable audit model and API
-- zaggle-frontend
+  
+- frontend
   - app: route groups for auth and dashboard
   - components: domain UI components
   - hooks: query and mutation hooks
   - lib/api: API client modules
-  - types and schemas: data contracts and validation
+  - lib/providers: auth and query context providers
+  - types: TypeScript type definitions
+  - schemas: Zod validation schemas
+  - stores: Zustand state stores
 - p_architecture.md, p_audit_and_security.md, p_ui_ux.md
   - product and implementation reference docs
 
@@ -136,11 +141,11 @@ The product combines:
 
 ## Option A: Docker-first backend setup
 
-1. Open terminal in zaggle_backend
+1. Open terminal in backend
 2. Start backend infra and workers:
 
 ```powershell
-cd zaggle_backend
+cd backend
 docker compose up --build
 ```
 
@@ -154,7 +159,7 @@ This starts:
 3. In another terminal, run migrations:
 
 ```powershell
-cd zaggle_backend
+cd backend
 docker compose exec django python manage.py migrate
 ```
 
@@ -163,7 +168,7 @@ docker compose exec django python manage.py migrate
 1. Create and activate virtual environment
 
 ```powershell
-cd zaggle_backend
+cd backend
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
@@ -200,7 +205,7 @@ celery -A celery_app beat -l INFO
 1. Install dependencies
 
 ```powershell
-cd zaggle-frontend
+cd frontend
 npm install
 ```
 
@@ -220,9 +225,9 @@ Frontend runs on port 3000 by default.
 
 ## 7) Environment Variables
 
-## Backend (zaggle_backend/.env)
+## Backend (backend/.env)
 
-Start from zaggle_backend/.env.example.
+Start from backend/.env.example.
 
 Important keys:
 - DJANGO_SECRET_KEY: required in all environments
@@ -237,9 +242,10 @@ Important keys:
 - CORS_ALLOWED_ORIGINS: frontend origin allowlist
 - OTP_SECRET_KEY: OTP session security
 
-## Frontend (zaggle-frontend/.env.local)
+## Frontend (frontend/.env.local)
 
-- NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+- NEXT_PUBLIC_API_URL= (optional, for direct browser calls)
+- BACKEND_INTERNAL_URL=http://127.0.0.1:8000 (used by Next.js API proxy)
 
 ## 8) Running the System
 
@@ -321,7 +327,7 @@ Cause:
 
 Fix:
 ```powershell
-cd zaggle_backend
+cd backend
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements\base.txt
@@ -403,7 +409,7 @@ Fix options:
 
 ## Backend
 ```powershell
-cd zaggle_backend
+cd backend
 python manage.py migrate
 python manage.py runserver
 python -m compileall apps config celery_app.py
@@ -412,7 +418,7 @@ python manage.py test
 
 ## Frontend
 ```powershell
-cd zaggle-frontend
+cd frontend
 npm install
 npm run dev
 npm run build
@@ -421,7 +427,7 @@ npm run lint
 
 ## Docker backend stack
 ```powershell
-cd zaggle_backend
+cd backend
 docker compose up --build
 docker compose down
 ```

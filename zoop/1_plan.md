@@ -1,12 +1,12 @@
  
-Zaggle Dashboard — Implementation Plan
+Zoop Dashboard — Implementation Plan
 
 
 Context
 
 
 
- Zaggle Dashboard is a multi-tenant B2B SaaS for Indian corporates that restructures employee CTC to
+ Zoop Dashboard is a multi-tenant B2B SaaS for Indian corporates that restructures employee CTC to
  maximize in-hand salary via tax-exempt expense categories. The project has fully defined architecture in
  three .md files: p_architecture.md (Django backend + Next.js frontend), p_audit_and_security.md (RBAC,
  auth, audit), and p_ui_ux.md (role-based shells, state management).
@@ -18,7 +18,7 @@ Context
 
  Project Structure
 
- zaggle_backend/
+ zoop_backend/
  ├── config/
  │   ├── settings/
  │   │   ├── base.py
@@ -126,7 +126,7 @@ Context
 
  Project Structure
 
- zaggle-frontend/
+ zoop-frontend/
  ├── app/
  │   ├── layout.tsx                    # Root: QueryProvider, AuthProvider, ThemeProvider, Toaster
  │   ├── (auth)/
